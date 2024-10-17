@@ -1,5 +1,5 @@
 # project folders
-data                          # example dmps
+/data                          # example dmps
 
 # Byte-compiled / optimized / DLL files
 __pycache__/                  # Ignore Python cache files
