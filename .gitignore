@@ -1,15 +1,15 @@
 # project folders
-/data                          # example dmps
+/data
 
 # Byte-compiled / optimized / DLL files
-__pycache__/                  # Ignore Python cache files
-*.py[cod]                     # Ignore .pyc, .pyo, and .pyd files
+__pycache__/
+*.py[cod]
 
 
 # Jupyter Notebook
-.ipynb_checkpoints/           # Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
 /jupyter
 
 # VS Code
-.vscode/                      # Ignore Visual Studio Code settings
+.vscode/
 
