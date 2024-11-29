@@ -17,6 +17,20 @@ def init_db(db_path: str = "data/dmp_data.db") -> None:
         """
         CREATE TABLE IF NOT EXISTS projects (
             project_id TEXT PRIMARY KEY,
+            project_description TEXT,
+            closed BOOLEAN,
+            unit TEXT,
+            responsible_department TEXT,
+            responsible_department_description TEXT,
+            project_type TEXT,
+            project_type_description TEXT,
+            financier TEXT,
+            business_area TEXT,
+            business_area_description TEXT,
+            project_leader_number TEXT,
+            project_leader_name TEXT,
+            project_administrator_number TEXT,
+            project_administrator_name TEXT,
             date_created TIMESTAMP,
             date_modified TIMESTAMP,
             date_start TIMESTAMP,
@@ -24,7 +38,9 @@ def init_db(db_path: str = "data/dmp_data.db") -> None:
             date_closed TIMESTAMP,
             status_api TEXT,
             quote_status TEXT,
-            dmp_score INTEGER
+            dmp_score INTEGER,
+            dmp_score_part_1 INTEGER,
+            dmp_score_part_2 INTEGER
         )
     """
     )

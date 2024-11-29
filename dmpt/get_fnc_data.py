@@ -15,11 +15,31 @@ def call_dmp_api(
     Args:
         api_url (str): The URL of the DMP API
         since_date (str): Date string to filter projects (will be converted to yyyy.mm.dd)
-        api_key (str, optional): API key if required for authentication
         verify_ssl (bool): Whether to verify SSL certificates. Default False for internal systems.
 
     Returns:
-        List[Dict]: List of project dictionaries
+        List[Dict]: List of project dictionaries with the following fields:
+            - ProjectNumber: Project identifier
+            - ProjectDescription: Description of the project
+            - Closed: Project closure status
+            - Unit: Unit identifier
+            - ResponsibleDepartment: Department code
+            - ResponsibleDepartmentDescription: Department name
+            - ProjectType: Type code
+            - ProjectTypeDescription: Type description
+            - Financier: Project financier
+            - BusinessArea: Business area code
+            - BusinessAreaDescription: Business area name
+            - ProjectLeaderNumber: Project leader ID
+            - ProjectLeaderName: Project leader name
+            - ProjectAdministratorNumber: Administrator ID
+            - ProjectAdministratorName: Administrator name
+            - DateCreated: Creation timestamp
+            - DateModified: Last modification timestamp
+            - DateStart: Project start date
+            - DateEnd: Project end date
+            - DateClosed: Project closure date
+            - Status: Project status
     """
 
     # Prepare query parameters
