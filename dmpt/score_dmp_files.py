@@ -131,7 +131,7 @@ def create_dmp_table(df: pd.DataFrame) -> pd.DataFrame:
     # put the results in a dataframe
     # Create the dataframe
     data = {
-        'project_number': list(dmp_scores.keys()),
+        'ProjectNumber': list(dmp_scores.keys()),
         'total_score': [scores[0] for scores in dmp_scores.values()],
         'score1': [scores[1] for scores in dmp_scores.values()],
         'score2': [scores[2] for scores in dmp_scores.values()],

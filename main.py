@@ -20,7 +20,7 @@ def main():
     # Combine scoring results with project data
     df_total = df.merge(
         dmps_table,
-        left_on="project_id",
+        left_on="ProjectNumber",
         right_index=True,
         how="outer",
         indicator=True,
