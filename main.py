@@ -14,6 +14,21 @@ def main():
     # Process the data
     df = process_api_data(projects)
 
+    # Read the DMPs
+    dmp_tables = read_tables(df)
+
+    # Score the data
+    scored_projects = score_projects(dmp_tables)
+
+    # Combine scoring results with project data
+    df_total = df.merge(
+        scored_projects,
+        left_on="project_id",
+        right_index=True,
+        how="outer",
+        indicator=True,
+    )
+
     # Write to database
     write_projects_to_db(df)
 
