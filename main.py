@@ -30,7 +30,7 @@ def main():
     )
 
     # Write to database
-    write_projects_to_db(df)
+    write_projects_to_db(df_total)
 
 
 if __name__ == "__main__":
