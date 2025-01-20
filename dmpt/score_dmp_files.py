@@ -64,7 +64,7 @@ def create_dmp_dictionary(df: pd.DataFrame) -> dict[int, str]:
     return dmp
     
 
-def date_modified(dmp: dict[int, str]) -> dict[int, datetime.datetime]:
+def date_modified(dmp: dict[int, str]) -> dict[int, pd.Timestamp]:
     """
     Given a dictionary of project numbers and file paths, returns a dictionary
     where the keys are the project numbers and the values are the last modified
@@ -74,14 +74,35 @@ def date_modified(dmp: dict[int, str]) -> dict[int, datetime.datetime]:
         dmp (dict[int, str]): A dictionary where keys are project numbers and 
                               values are file paths.
     Returns:
-        dict[int, datetime.datetime]: A dictionary where keys are project numbers
-                                      and values are the last modified dates of 
-                                      the corresponding files.
+        dict[int, pd.Timestamp]: A dictionary where keys are project numbers
+                                 and values are the last modified dates of 
+                                 the corresponding files.
     """
     dmp_date_modified = {}
     for project_number, file_path in dmp.items():
-        dmp_date_modified[project_number] = datetime.datetime.fromtimestamp(os.path.getmtime(file_path))
+        dmp_date_modified[project_number] = pd.to_datetime(datetime.datetime.fromtimestamp(os.path.getmtime(file_path)))
     return dmp_date_modified
+
+
+def date_created(dmp: dict[int, str]) -> dict[int, pd.Timestamp]:
+    """
+    Given a dictionary of project numbers and file paths, returns a dictionary
+    where the keys are the project numbers and the values are the dates of creating  
+    the corresponding files.
+
+    Args:
+        dmp (dict[int, str]): A dictionary where the keys are project numbers (int) 
+                              and the values are file paths (str).
+
+    Returns:
+        dict[int, pd.Timestamp]: A dictionary where the keys are project numbers (int) 
+                                 and the values are the creation dates (pd.Timestamp) 
+                                 of the corresponding files.
+    """
+    dmp_date_created = {}
+    for project_number, file_path in dmp.items():
+        dmp_date_created[project_number] = pd.to_datetime(datetime.datetime.fromtimestamp(os.path.getctime(file_path)))
+    return dmp_date_created
 
 
 def read_and_score_dmps(dmp: dict[int, str]) -> dict[int, tuple[float, float, float]]:
