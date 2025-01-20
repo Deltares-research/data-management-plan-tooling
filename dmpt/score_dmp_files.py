@@ -3,10 +3,10 @@ import os
 import pandas as pd
 import re
 
-from dmp_v1 import read_and_score_dmp_v1
-from dmp_v2 import read_and_score_dmp_v2
+from dmpt.dmp_v1 import read_and_score_dmp_v1
+from dmpt.dmp_v2 import read_and_score_dmp_v2
 
-from tools.find_version_number import find_version_number
+from dmpt.tools.find_version_number import find_version_number
 
 
 def find_matching_docx(folder_path: str) -> str|None:
@@ -61,10 +61,10 @@ def create_dmp_dictionary(df: pd.DataFrame) -> dict[int, str]:
         temp = find_matching_docx(source_folder)
         if temp is not None:
             dmp[number] = temp
-        return dmp
+    return dmp
     
 
-def date_modified(dmp: dict[int, str]) -> dict[int, datetime.datetime]:
+def date_modified(dmp: dict[int, str]) -> dict[int, pd.Timestamp]:
     """
     Given a dictionary of project numbers and file paths, returns a dictionary
     where the keys are the project numbers and the values are the last modified
@@ -74,14 +74,35 @@ def date_modified(dmp: dict[int, str]) -> dict[int, datetime.datetime]:
         dmp (dict[int, str]): A dictionary where keys are project numbers and 
                               values are file paths.
     Returns:
-        dict[int, datetime.datetime]: A dictionary where keys are project numbers
-                                      and values are the last modified dates of 
-                                      the corresponding files.
+        dict[int, pd.Timestamp]: A dictionary where keys are project numbers
+                                 and values are the last modified dates of 
+                                 the corresponding files.
     """
     dmp_date_modified = {}
     for project_number, file_path in dmp.items():
-        dmp_date_modified[project_number] = datetime.datetime.fromtimestamp(os.path.getmtime(file_path))
+        dmp_date_modified[project_number] = pd.to_datetime(datetime.datetime.fromtimestamp(os.path.getmtime(file_path)))
     return dmp_date_modified
+
+
+def date_created(dmp: dict[int, str]) -> dict[int, pd.Timestamp]:
+    """
+    Given a dictionary of project numbers and file paths, returns a dictionary
+    where the keys are the project numbers and the values are the dates of creating  
+    the corresponding files.
+
+    Args:
+        dmp (dict[int, str]): A dictionary where the keys are project numbers (int) 
+                              and the values are file paths (str).
+
+    Returns:
+        dict[int, pd.Timestamp]: A dictionary where the keys are project numbers (int) 
+                                 and the values are the creation dates (pd.Timestamp) 
+                                 of the corresponding files.
+    """
+    dmp_date_created = {}
+    for project_number, file_path in dmp.items():
+        dmp_date_created[project_number] = pd.to_datetime(datetime.datetime.fromtimestamp(os.path.getctime(file_path)))
+    return dmp_date_created
 
 
 def read_and_score_dmps(dmp: dict[int, str]) -> dict[int, tuple[float, float, float]]:
@@ -99,6 +120,8 @@ def read_and_score_dmps(dmp: dict[int, str]) -> dict[int, tuple[float, float, fl
     for project_number, file_path in dmp.items():
         major, minor = find_version_number(file_path)
         match major:
+            case(0):
+                dmp_scores[project_number] = read_and_score_dmp_v1(file_path)
             case(1):
                 dmp_scores[project_number] = read_and_score_dmp_v1(file_path)
             case(2):
@@ -107,7 +130,7 @@ def read_and_score_dmps(dmp: dict[int, str]) -> dict[int, tuple[float, float, fl
 
     
 
-def create_dmp_table(df: pd.DataFrame) -> pd.DataFrame:
+def create_dmp_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     """
     Creates a DataFrame containing DMP (Data Management Plan) scores and modification dates.
     This function processes the input DataFrame to generate a dictionary of DMPs, scores them,
@@ -125,8 +148,12 @@ def create_dmp_table(df: pd.DataFrame) -> pd.DataFrame:
     """
 
     dmp = create_dmp_dictionary(df)
-    dmp_scores = read_and_score_dmps(dmp)
+    
+    dmp_date_created = date_created(dmp)
     dmp_date_modified = date_modified(dmp)
+
+    dmp_scores = read_and_score_dmps(dmp)
+
 
     # put the results in a dataframe
     # Create the dataframe
@@ -135,7 +162,8 @@ def create_dmp_table(df: pd.DataFrame) -> pd.DataFrame:
         'total_score': [scores[0] for scores in dmp_scores.values()],
         'score1': [scores[1] for scores in dmp_scores.values()],
         'score2': [scores[2] for scores in dmp_scores.values()],
-        'date_modified': [dt for dt in dmp_date_modified.values()]
+        'dmp_date_created': [dt for dt in dmp_date_created.values()],
+        'dmp_date_modified': [dt for dt in dmp_date_modified.values()]
     }
 
     return pd.DataFrame(data)

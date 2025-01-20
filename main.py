@@ -1,7 +1,7 @@
 from dmpt.database import init_db, write_projects_to_db
 from dmpt.get_fnc_data import call_dmp_api, process_api_data
 
-from dmpt.score_dmp_files import create_dmp_table
+from dmpt.score_dmp_files import create_dmp_dataframe
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
     df = process_api_data(projects)
 
     # Read and Scorethe DMPs
-    dmps_table = create_dmp_table(df)
+    dmps_table = create_dmp_dataframe(df)
 
     # Combine scoring results with project data
     df_total = df.merge(
