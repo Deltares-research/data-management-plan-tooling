@@ -146,8 +146,12 @@ def create_dmp_table(df: pd.DataFrame) -> pd.DataFrame:
     """
 
     dmp = create_dmp_dictionary(df)
-    dmp_scores = read_and_score_dmps(dmp)
+    
+    dmp_date_created = date_created(dmp)
     dmp_date_modified = date_modified(dmp)
+
+    dmp_scores = read_and_score_dmps(dmp)
+
 
     # put the results in a dataframe
     # Create the dataframe
@@ -156,7 +160,8 @@ def create_dmp_table(df: pd.DataFrame) -> pd.DataFrame:
         'total_score': [scores[0] for scores in dmp_scores.values()],
         'score1': [scores[1] for scores in dmp_scores.values()],
         'score2': [scores[2] for scores in dmp_scores.values()],
-        'date_modified': [dt for dt in dmp_date_modified.values()]
+        'dmp_date_created': [dt for dt in dmp_date_created.values()],
+        'dmp_date_modified': [dt for dt in dmp_date_modified.values()]
     }
 
     return pd.DataFrame(data)
