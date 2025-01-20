@@ -128,7 +128,7 @@ def read_and_score_dmps(dmp: dict[int, str]) -> dict[int, tuple[float, float, fl
 
     
 
-def create_dmp_table(df: pd.DataFrame) -> pd.DataFrame:
+def create_dmp_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     """
     Creates a DataFrame containing DMP (Data Management Plan) scores and modification dates.
     This function processes the input DataFrame to generate a dictionary of DMPs, scores them,
