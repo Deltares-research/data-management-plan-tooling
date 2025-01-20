@@ -2,7 +2,7 @@ import re
 
 import win32com.client
 
-from tools.parsers import parse_checkboxes, project_info, text_is_not_default
+from dmpt.tools.parsers import parse_checkboxes, project_info, text_is_not_default
 
 
 def read_dmp_file(dmp_file: str) -> dict[str, str]:

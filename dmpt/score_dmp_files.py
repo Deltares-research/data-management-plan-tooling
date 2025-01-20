@@ -3,10 +3,10 @@ import os
 import pandas as pd
 import re
 
-from dmp_v1 import read_and_score_dmp_v1
-from dmp_v2 import read_and_score_dmp_v2
+from dmpt.dmp_v1 import read_and_score_dmp_v1
+from dmpt.dmp_v2 import read_and_score_dmp_v2
 
-from tools.find_version_number import find_version_number
+from dmpt.tools.find_version_number import find_version_number
 
 
 def find_matching_docx(folder_path: str) -> str|None:
