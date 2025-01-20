@@ -14,3 +14,11 @@ __pycache__/
 # VS Code
 .vscode/
 venv
+
+# uv
+uv.lock
+.venv
+.ruff_cache
+
+# pytest
+.pytest_cache
