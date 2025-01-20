@@ -5,8 +5,6 @@ from dmpt.score_dmp_files import create_dmp_dataframe
 
 
 def main():
-    # Initialize database
-    init_db()
 
     # Get data from API
     projects = call_dmp_api()
@@ -26,8 +24,7 @@ def main():
         indicator=True,
     )
 
-    # Write to database
-    write_projects_to_db(df_total)
+    df_total.to_csv("output.csv")
 
 
 if __name__ == "__main__":
