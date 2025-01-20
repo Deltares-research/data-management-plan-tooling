@@ -61,7 +61,7 @@ def create_dmp_dictionary(df: pd.DataFrame) -> dict[int, str]:
         temp = find_matching_docx(source_folder)
         if temp is not None:
             dmp[number] = temp
-        return dmp
+    return dmp
     
 
 def date_modified(dmp: dict[int, str]) -> dict[int, datetime.datetime]:
