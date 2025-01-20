@@ -1,4 +1,3 @@
-from dmpt.database import init_db, write_projects_to_db
 from dmpt.get_fnc_data import call_dmp_api, process_api_data
 
 from dmpt.score_dmp_files import create_dmp_dataframe
