@@ -28,7 +28,7 @@ def main():
         indicator=True,
     )
 
-    df_total.to_csv("output.csv")
+    df_total.to_csv("output.csv", index=False)
 
 
 if __name__ == "__main__":
