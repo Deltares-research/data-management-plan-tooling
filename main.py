@@ -15,11 +15,15 @@ def main():
     # Read and Scorethe DMPs
     dmps_table = create_dmp_dataframe(df)
 
-    # Combine scoring results with project data
+    # make sure project numbers are integer type
+    df.ProjectNumber = df.ProjectNumber.astype(int)
+    dmps_table.ProjectNumber = dmps_table.ProjectNumber.astype(int)
+
+    # Combine scoring results with project data on project number
     df_total = df.merge(
         dmps_table,
         left_on="ProjectNumber",
-        right_index=True,
+        right_on="ProjectNumber",
         how="outer",
         indicator=True,
     )
