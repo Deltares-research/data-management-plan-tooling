@@ -1,5 +1,6 @@
-from dmpt.get_fnc_data import call_dmp_api, process_api_data
+import os
 
+from dmpt.get_fnc_data import call_dmp_api, process_api_data
 from dmpt.score_dmp_files import create_dmp_dataframe
 
 
@@ -27,7 +28,8 @@ def main():
         indicator=True,
     )
 
-    df_total.to_csv("data/output.csv", index=False, mode="w")
+    filename = "output.csv"
+    df_total.to_csv(os.path.join("data", filename), index=False, mode="w")
 
 
 if __name__ == "__main__":
