@@ -10,7 +10,7 @@ Created on Mon Feb 19 14:04:35 2024
 import os
 
 from docx import Document
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Optional
 
 TARGET_TABLES = [2, 3, 4, 6, 7, 8]
 PROJECT_FOLDER = "Project_BGS"
@@ -18,7 +18,7 @@ MAIL_FOLDER = "Mail_BGS"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-def read_tables(doc_path: str, target_tables: List[int] = None) -> Dict[int, List[str]]:
+def read_tables(doc_path: str, target_tables: Optional[List[int]] = None) -> Dict[int, List[str]]:
     """
     Read the tables from a Word document and return the content of the tables as a
     dictionary. The tables are identified by their index in the document. The
