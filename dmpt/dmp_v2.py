@@ -168,4 +168,5 @@ def score_dmp_v2(values) -> tuple[float, float, float]:
 
 def read_and_score_dmp_v2(dmp_file: str) -> tuple[float, float, float]:
     values = read_dmp_file(dmp_file)
-    return score_dmp_v2(values)
+    scores = score_dmp_v2(values)
+    return scores
