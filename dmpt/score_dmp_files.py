@@ -119,13 +119,16 @@ def read_and_score_dmps(dmp: dict[int, str]) -> dict[int, tuple[float, float, fl
     dmp_scores = dict()
     for project_number, file_path in dmp.items():
         major, minor = find_version_number(file_path)
-        match major:
-            case(0):
-                dmp_scores[project_number] = read_and_score_dmp_v1(file_path)
-            case(1):
-                dmp_scores[project_number] = read_and_score_dmp_v1(file_path)
-            case(2):
-                dmp_scores[project_number] = read_and_score_dmp_v2(file_path)
+        try:
+            match major:
+                case(0):
+                    dmp_scores[project_number] = read_and_score_dmp_v1(file_path)
+                case(1):
+                    dmp_scores[project_number] = read_and_score_dmp_v1(file_path)
+                case(2):
+                    dmp_scores[project_number] = read_and_score_dmp_v2(file_path)
+        except Exception as e:
+            dmp_scores[project_number] = (-1, -1, -1)
     return dmp_scores
 
     
