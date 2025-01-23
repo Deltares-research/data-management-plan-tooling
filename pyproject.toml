@@ -9,6 +9,7 @@ dependencies = [
     "python-docx>=1.1.2",
     "pywin32>=308",
     "requests>=2.32.3",
+    "tqdm>=4.67.1",
 ]
 
 [dependency-groups]
