@@ -1,12 +1,17 @@
 import datetime
 import os
-import pandas as pd
 import re
+
+import pandas as pd
+from tqdm import tqdm
 
 from dmpt.dmp_v1 import read_and_score_dmp_v1
 from dmpt.dmp_v2 import read_and_score_dmp_v2
 
 from dmpt.tools.find_version_number import find_version_number
+
+TQDM_DESCRIPTION_WIDTH = 30  # characters
+TQDM_PROGRESS_BAR_WIDTH = 100  # characters
 
 
 def find_matching_docx(folder_path: str) -> str|None:
@@ -79,7 +84,8 @@ def date_modified(dmp: dict[int, str]) -> dict[int, pd.Timestamp]:
                                  the corresponding files.
     """
     dmp_date_modified = {}
-    for project_number, file_path in dmp.items():
+    description = "Reading DMPs modification dates".ljust(TQDM_DESCRIPTION_WIDTH)
+    for project_number, file_path in tqdm(dmp.items(), description, ncols=TQDM_PROGRESS_BAR_WIDTH):
         dmp_date_modified[project_number] = pd.to_datetime(datetime.datetime.fromtimestamp(os.path.getmtime(file_path)))
     return dmp_date_modified
 
@@ -100,7 +106,8 @@ def date_created(dmp: dict[int, str]) -> dict[int, pd.Timestamp]:
                                  of the corresponding files.
     """
     dmp_date_created = {}
-    for project_number, file_path in dmp.items():
+    description = "Reading DMPs creation dates".ljust(TQDM_DESCRIPTION_WIDTH)
+    for project_number, file_path in tqdm(dmp.items(), description, ncols=TQDM_PROGRESS_BAR_WIDTH):
         dmp_date_created[project_number] = pd.to_datetime(datetime.datetime.fromtimestamp(os.path.getctime(file_path)))
     return dmp_date_created
 
@@ -117,7 +124,8 @@ def read_and_score_dmps(dmp: dict[int, str]) -> dict[int, tuple[float, float, fl
     """
     
     dmp_scores = dict()
-    for project_number, file_path in dmp.items():
+    description = "Reading and scoring DMPs".ljust(TQDM_DESCRIPTION_WIDTH)
+    for project_number, file_path in tqdm(dmp.items(), description, ncols=TQDM_PROGRESS_BAR_WIDTH):
         major, minor = find_version_number(file_path)
         try:
             match major:
