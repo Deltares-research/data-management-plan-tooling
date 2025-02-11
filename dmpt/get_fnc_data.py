@@ -1,11 +1,17 @@
 from typing import Dict, List
+from dotenv import load_dotenv
+import os
 
 import pandas as pd
 import requests
 
+load_dotenv()
+API_URL = os.getenv("API_URL")
+if API_URL is None:
+    raise ValueError("API_URL environment variable is not set.")
 
 def call_dmp_api(
-    api_url: str = "https://fnc.directory.intra/rest/projects/projects_dmp",
+    api_url: str = API_URL,
     since_date: str = "2023.11.01",
     verify_ssl: bool = False,
 ) -> List[Dict]:
