@@ -87,7 +87,6 @@ def call_dmp_api(
         return []
     except ValueError as e:
         print(f"Error parsing JSON response: {e}")
-        print(f"Response content: {response.text[:200]}...")
         return []
     except Exception as e:
         print(f"Unexpected error: {e}")

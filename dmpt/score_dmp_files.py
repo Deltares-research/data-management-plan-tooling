@@ -135,30 +135,31 @@ def read_and_score_dmps(dmp: dict[int, str]) -> dict[int, tuple[float, float, fl
                     dmp_scores[project_number] = read_and_score_dmp_v1(file_path)
                 case(2):
                     dmp_scores[project_number] = read_and_score_dmp_v2(file_path)
-        except Exception as e:
+        except Exception as e:  # noqa: F841
             dmp_scores[project_number] = (-1, -1, -1)
     return dmp_scores
 
     
 
-def create_dmp_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+def create_dmp_dataframe(df_api: pd.DataFrame) -> pd.DataFrame:
     """
     Creates a DataFrame containing DMP (Data Management Plan) scores and modification dates.
     This function processes the input DataFrame to generate a dictionary of DMPs, scores them,
     and retrieves their last modification dates. The results are then compiled into a new DataFrame.
 
     Args:
-        df (pd.DataFrame): The input DataFrame containing DMP data.
+        df_api (pd.DataFrame): The input DataFrame containing DMP data.
     Returns:
         pd.DataFrame: A DataFrame with the following columns:
             - 'project_number': The project numbers.
-            - 'total_score': The total scores for each project.
-            - 'score1': The first individual score for each project.
-            - 'score2': The second individual score for each project.
-            - 'date_modified': The modification dates for each project.
+            - 'score1': The first individual score for each DMP.
+            - 'score2': The second individual score for each DMP.
+            - 'total_score': The total scores for each DMP.
+            - 'date_created': The creation dates for each DMP.
+            - 'date_modified': The modification dates for each DMP.
     """
 
-    dmp = create_dmp_dictionary(df)
+    dmp = create_dmp_dictionary(df_api)
     
     dmp_date_created = date_created(dmp)
     dmp_date_modified = date_modified(dmp)
@@ -169,10 +170,10 @@ def create_dmp_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     # put the results in a dataframe
     # Create the dataframe
     data = {
-        'ProjectNumber': list(dmp_scores.keys()),
-        'total_score': [scores[0] for scores in dmp_scores.values()],
-        'score1': [scores[1] for scores in dmp_scores.values()],
-        'score2': [scores[2] for scores in dmp_scores.values()],
+        'ProjectNumber': list(dmp.keys()),
+        'score1': [scores[0] for scores in dmp_scores.values()],
+        'score2': [scores[1] for scores in dmp_scores.values()],
+        'total_score': [scores[2] for scores in dmp_scores.values()],
         'dmp_date_created': [dt for dt in dmp_date_created.values()],
         'dmp_date_modified': [dt for dt in dmp_date_modified.values()]
     }
