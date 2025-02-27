@@ -57,7 +57,11 @@ def create_dmp_dictionary(df: pd.DataFrame) -> dict[int, str]:
         def round_down_to_500(number: int) -> int:
             return number - (number % 500)
 
-        number = int(project_number)
+        try:
+            number = int(project_number)
+        except ValueError:
+            print(f"Invalid project number: {project_number}")
+            continue
 
         # Define the source directory you want to copy
         source_folder = f"n:\\Projects\\{round_down_to_500(number)}\\{number}\\{suffix}"
