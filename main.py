@@ -31,8 +31,8 @@ def main():
     )
 
     output_folder = os.getenv("PATH_TO_DATA", "data")
-    filename = "output.csv"
-    df_total.to_csv(os.path.join(output_folder, filename), index=False, mode="w")
+    output_filename = os.getenv("OUTPUT_FILENAME ", "output.csv")
+    df_total.to_csv(os.path.join(output_folder, output_filename), index=False, mode="w")
 
 
 if __name__ == "__main__":
