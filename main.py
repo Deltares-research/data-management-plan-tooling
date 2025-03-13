@@ -1,8 +1,10 @@
 import os
+from dotenv import load_dotenv
 
 from dmpt.get_fnc_data import call_dmp_api, process_api_data
 from dmpt.score_dmp_files import create_dmp_dataframe
 
+load_dotenv()
 
 def main():
 
@@ -28,8 +30,9 @@ def main():
         indicator=True,
     )
 
+    output_folder = os.getenv("PATH_TO_DATA", "data")
     filename = "output.csv"
-    df_total.to_csv(os.path.join("data", filename), index=False, mode="w")
+    df_total.to_csv(os.path.join(output_folder, filename), index=False, mode="w")
 
 
 if __name__ == "__main__":
