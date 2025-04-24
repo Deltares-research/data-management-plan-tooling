@@ -31,7 +31,7 @@ def find_matching_docx(folder_path: str) -> str|None:
     # Walk through the directory
     for root, _, files in os.walk(folder_path):
         for file in files:
-            if pattern.match(file):
+            if file.endswith(".docx") and pattern.match(file):
                 return os.path.join(root, file)
     
     return None
