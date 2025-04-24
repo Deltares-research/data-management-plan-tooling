@@ -184,4 +184,19 @@ def create_dmp_dataframe(df_api: pd.DataFrame) -> pd.DataFrame:
 
     return pd.DataFrame(data)
 
+
+def create_dmp_dataframe_diff(df_api: pd.DataFrame, df_total_old) -> pd.DataFrame:
+    dmp = create_dmp_dictionary(df_api)
     
+    dmp_date_created = date_created(dmp)
+    dmp_date_modified = date_modified(dmp)
+
+    data = {
+        'ProjectNumber': list(dmp.keys()),
+        'dmp_date_created': [dt for dt in dmp_date_created.values()],
+        'dmp_date_modified': [dt for dt in dmp_date_modified.values()]
+    }
+    
+    df_dmp_dates = pd.DataFrame(data)
+    return pd.DataFrame()
+
